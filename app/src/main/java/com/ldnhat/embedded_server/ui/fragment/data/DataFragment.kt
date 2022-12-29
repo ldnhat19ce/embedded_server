@@ -30,6 +30,7 @@ class DataFragment : Fragment() {
             if (null != it) {
                 dataViewModel.setHumidityValue(it.humidity + Constants.SPACE + it.humidityMeasure)
                 dataViewModel.setTemperatureValue(it.temperature + Constants.SPACE + it.temperatureMeasure)
+                dataViewModel.setSoilValue(it.soilMoisture + Constants.SPACE + it.soilMoistureMeasure)
             }
         })
 

@@ -37,6 +37,7 @@ class ChartFragment : Fragment() {
                 data = it
                 generateTemperatureChart(data, binding)
                 generateHumidityChart(data, binding)
+                generateSoilChart(data, binding)
             }
         })
 
@@ -101,21 +102,21 @@ class ChartFragment : Fragment() {
     }
 
     private fun generateHumidityChart(data: List<Data>, binding: FragmentChartBinding) {
-        val temperatureChart = binding.humidityChart
-        temperatureChart.description.isEnabled = false
-        temperatureChart.setDrawGridBackground(false)
-        temperatureChart.setDrawBarShadow(false)
-        temperatureChart.isHighlightFullBarEnabled = false
+        val humidityChart = binding.humidityChart
+        humidityChart.description.isEnabled = false
+        humidityChart.setDrawGridBackground(false)
+        humidityChart.setDrawBarShadow(false)
+        humidityChart.isHighlightFullBarEnabled = false
 
-        val rightAxis: YAxis = temperatureChart.axisRight
+        val rightAxis: YAxis = humidityChart.axisRight
         rightAxis.setDrawGridLines(false)
         rightAxis.axisMinimum = -100f
 
-        val leftAxis: YAxis = temperatureChart.axisLeft
+        val leftAxis: YAxis = humidityChart.axisLeft
         leftAxis.setDrawGridLines(false)
         leftAxis.axisMinimum = -100f
 
-        val xAxis: XAxis = temperatureChart.xAxis
+        val xAxis: XAxis = humidityChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.mAxisMinimum = 0f
         xAxis.granularity = 1f
@@ -125,8 +126,8 @@ class ChartFragment : Fragment() {
         lineData.addDataSet(dataHumidityChart(data) as ILineDataSet)
         combinedData.setData(lineData)
         xAxis.axisMaximum = combinedData.xMax + 0.25f
-        temperatureChart.data = combinedData
-        temperatureChart.invalidate()
+        humidityChart.data = combinedData
+        humidityChart.invalidate()
     }
 
     private fun dataHumidityChart(data: List<Data>): DataSet<Entry> {
@@ -138,6 +139,62 @@ class ChartFragment : Fragment() {
         }
 
         val set = LineDataSet(entries, "Humidity data")
+        set.color = Color.BLUE
+        set.lineWidth = 2.5f
+        set.setCircleColor(Color.BLUE)
+        set.circleRadius = 2f
+        set.fillColor = Color.BLUE
+        set.mode = LineDataSet.Mode.CUBIC_BEZIER
+        set.setDrawValues(true)
+        set.valueTextSize = 7f
+        set.valueTextColor = Color.BLUE
+
+        set.axisDependency = YAxis.AxisDependency.LEFT
+
+        set.axisDependency = YAxis.AxisDependency.LEFT
+        lineData.addDataSet(set)
+
+        return set
+    }
+
+    private fun generateSoilChart(data: List<Data>, binding: FragmentChartBinding) {
+        val soilChart = binding.soilChart
+        soilChart.description.isEnabled = false
+        soilChart.setDrawGridBackground(false)
+        soilChart.setDrawBarShadow(false)
+        soilChart.isHighlightFullBarEnabled = false
+
+        val rightAxis: YAxis = soilChart.axisRight
+        rightAxis.setDrawGridLines(false)
+        rightAxis.axisMinimum = -100f
+
+        val leftAxis: YAxis = soilChart.axisLeft
+        leftAxis.setDrawGridLines(false)
+        leftAxis.axisMinimum = -100f
+
+        val xAxis: XAxis = soilChart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.mAxisMinimum = 0f
+        xAxis.granularity = 1f
+
+        val combinedData = CombinedData()
+        val lineData = LineData()
+        lineData.addDataSet(dataSoilChart(data) as ILineDataSet)
+        combinedData.setData(lineData)
+        xAxis.axisMaximum = combinedData.xMax + 0.25f
+        soilChart.data = combinedData
+        soilChart.invalidate()
+    }
+
+    private fun dataSoilChart(data: List<Data>): DataSet<Entry> {
+        val lineData = LineData()
+
+        val entries = ArrayList<Entry>()
+        for (i in data.indices) {
+            entries.add(Entry(i.toFloat(), (data[i].soilMoisture).toFloat()))
+        }
+
+        val set = LineDataSet(entries, "Soil moisture data")
         set.color = Color.BLUE
         set.lineWidth = 2.5f
         set.setCircleColor(Color.BLUE)

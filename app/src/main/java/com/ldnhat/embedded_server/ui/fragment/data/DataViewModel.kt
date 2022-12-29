@@ -50,6 +50,11 @@ class DataViewModel : ViewModel() {
     val humidityValue: LiveData<String>
         get() = _humidityValue
 
+    private var _soilValue = MutableLiveData<String>()
+
+    val soilValue: LiveData<String>
+        get() = _soilValue
+
     init {
         userGetAllData()
         val timerTask = object : TimerTask() {
@@ -100,6 +105,10 @@ class DataViewModel : ViewModel() {
 
     fun setHumidityValue(humidityValue: String) {
         _humidityValue.value = humidityValue
+    }
+
+    fun setSoilValue(soilValue: String) {
+        _soilValue.value = soilValue
     }
 
     override fun onCleared() {

@@ -63,7 +63,7 @@
             app:layout_constraintWidth_percent="0.7" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvAmountOfRain"
+            android:id="@+id/tvSoilMoisture"
             style="@style/textBlackBold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="16dp"
             android:paddingTop="2dp"
-            android:text="@{`Amount of rain: ` + data.amountOfRain}"
+            android:text="@{`Soil Moisture: ` + data.soilMoisture + ` ` + data.soilMoistureMeasure}"
             android:textSize="12sp"
             app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="parent"
