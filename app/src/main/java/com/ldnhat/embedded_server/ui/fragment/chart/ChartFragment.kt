@@ -34,7 +34,11 @@ class ChartFragment : Fragment() {
 
         chartViewModel.data.observe(viewLifecycleOwner, {
             if (null != it) {
-                data = it
+                data = it.filter { s ->
+                            isNumeric(s.humidity) &&
+                            isNumeric(s.temperature) &&
+                            isNumeric(s.soilMoisture)
+                }
                 generateTemperatureChart(data, binding)
                 generateHumidityChart(data, binding)
                 generateSoilChart(data, binding)
@@ -211,5 +215,14 @@ class ChartFragment : Fragment() {
         lineData.addDataSet(set)
 
         return set
+    }
+
+    private fun isNumeric(number: String): Boolean {
+        try {
+            val d: Float = number.toFloat()
+        } catch (nfe: NumberFormatException) {
+            return false
+        }
+        return true
     }
 }
